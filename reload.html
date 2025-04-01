@@ -16,3 +16,52 @@
   }
 <body onload="initForm()">
 
+
+<!--   polyfill approach  -->
+  <script type="text/javascript">
+// Cross-browser ready event polyfill
+function domReady(callback) {
+  // Internet Explorer
+  if (document.attachEvent) {
+    // For IE browsers
+    if (document.readyState === "complete" || document.readyState === "loaded") {
+      callback();
+    } else {
+      document.attachEvent("onreadystatechange", function() {
+        if (document.readyState === "complete") {
+          callback();
+        }
+      });
+    }
+  } 
+  // Modern browsers
+  else if (document.addEventListener) {
+    document.addEventListener("DOMContentLoaded", callback, false);
+  }
+  // Fallback
+  else {
+    window.onload = callback;
+  }
+}
+
+// Your initialization code
+function initForm() {
+  // Set default state - Sub-group selected
+  if (document.getElementById('sub_group_option')) {
+    document.getElementById('sub_group_option').checked = true;
+    toggleFields();
+  }
+  return true;
+}
+
+// Call domReady with your initialization function
+domReady(initForm);
+
+// Rest of your functions remain the same
+function toggleFields() {
+  // Your existing toggle code
+}
+
+
+</script>
+
