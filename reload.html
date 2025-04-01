@@ -3,3 +3,16 @@
     document.getElementById('sub_group_option').checked = true;
     toggleFields();
   };
+
+
+
+ function initForm() {
+    // Set default state - Sub-group selected
+    if (document.getElementById('sub_group_option')) {
+      document.getElementById('sub_group_option').checked = true;
+      toggleFields();
+    }
+    return true;
+  }
+<body onload="initForm()">
+
