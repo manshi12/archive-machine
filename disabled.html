@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CREDIT FILE/AUTHORIZATIONS: User Transfer</title>
+  <style>
+    /*... (no changes in CSS, for brevity) */
+  </style>
+  <script type="text/javascript">
+    // Initialize default state without using window.onload
+    function initForm() {
+      // Set default state - Sub-group selected
+      if (document.getElementById('sub_group_option')) {
+        document.getElementById('sub_group_option').checked = true;
+        toggleFields();
+        // Initially, LE option is enabled
+        document.getElementById('le_option').disabled = false;
+        document.getElementById('sub_group_option').disabled = false;
+      }
+      return true;
+    }
+    
+    // Function to toggle fields based on selection
+    function toggleFields() {
+      if (document.getElementById('le_option') && document.getElementById('le_option').checked) {
+        // If LE is selected
+        document.getElementById('subgroup_row').style.display = 'none';
+        document.getElementById('le_row').style.display = '';
+        document.getElementById('codria_row').style.display = 'none';
+        document.getElementById('codria_le_row').style.display = '';
+        // Disable Sub-group option if LE is selected and LE code is filled
+        document.getElementById('sub_group_option').disabled = (document.getElementById('txtle_code').value!== "");
+      } else {
+        // If Sub-group is selected
+        document.getElementById('subgroup_row').style.display = '';
+        document.getElementById('le_row').style.display = 'none';
+        document.getElementById('codria_row').style.display = '';
+        document.getElementById('codria_le_row').style.display = 'none';
+        // Disable LE option if Sub-group is selected and Sub-group code is filled
+        document.getElementById('le_option').disabled = (document.getElementById('txtsgr_code').value!== "");
+      }
+    }
+    
+    // Function to handle fetch details
+    function fetchDetails() {
+      var codriaValue;
+      
+      if (document.getElementById('le_option') && document.getElementById('le_option').checked) {
+        codriaValue = document.getElementById('codria_le_code').value;
+        // After fetching, enable Sub-group option
+        document.getElementById('sub_group_option').disabled = false;
+      } else {
+        codriaValue = document.getElementById('codria_code').value;
+        // After fetching, enable LE option
+        document.getElementById('le_option').disabled = false;
+      }
+      
+      console.log("Fetching details with CODRIA value: " + codriaValue);
+      // Your fetch logic here
+    }
+    
+    // Function to handle input field search
+    function inputfieldsearch(fieldId) {
+      console.log("Input field search triggered for: " + fieldId);
+      // Your input field search logic here
+      // Disable corresponding option if input field is filled
+      if (fieldId === "txtsgr_code") {
+        document.getElementById('le_option').disabled = (document.getElementById(fieldId).value!== "");
+      } else if (fieldId === "txtle_code") {
+        document.getElementById('sub_group_option').disabled = (document.getElementById(fieldId).value!== "");
+      }
+    }
+    
+    // Function to handle reset (enable both options)
+    function resetOptions() {
+      document.getElementById('le_option').disabled = false;
+      document.getElementById('sub_group_option').disabled = false;
+      document.getElementById('txtsgr_code').value = "";
+      document.getElementById('txtle_code').value = "";
+    }
+  </script>
+</head>
+<body onload="initForm()">
+<form name="CF10" id="CF10" style='width:100%; text-align:center;'>
+  <!--... (no changes in form fields, for brevity) -->
+  
+  <!-- Select Option Section -->
+  <tr bgcolor="#FFCC99">
+    <td height="28" class="BodyText" width="25%" align="left" valign="top">
+      Select Option:
+    </td>
+    <td colspan="3" align="left">
+      <div class="option-box">
+        <div>
+          <input type="radio" name="selectOption" id="sub_group_option" value="sub_group" checked onclick="toggleFields()"> Sub-group
+        </div>
+        <div>
+          <input type="radio" name="selectOption" id="le_option" value="le" onclick="toggleFields()"> LE
+        </div>
+      </div>
+    </td>
+  </tr>
+  
+  <!--... (no changes in other form fields, for brevity) -->
+  
+  <tr align="center" valign="middle">
+    <td colspan="4" align="center" class="button-container">
+      <input type="button" name="fetchCFDetails" id="fetchCFDetails" value="Fetch Details" onclick="javascript:fetchDetails();">
+      &nbsp;&nbsp;
+      <input type="button" name="cancelButton" id="cancelButton" value="Cancel" onclick="history.back();">
+      &nbsp;&nbsp;
+      <input type="button" name="resetButton" id="resetButton" value="Reset" onclick="javascript:resetOptions();">
+    </td>
+  </tr>
+</form>
+</body>
+</html>
