@@ -38,3 +38,34 @@ function resetForm() {
 </tr>
 
 <!--... (rest of the HTML code remains the same)... -->
+
+
+//... (rest of the JavaScript code remains the same)...
+
+// Function to toggle Reset button visibility based on input fields
+function toggleResetButton() {
+  var subgroupCode = document.getElementById('txtsgr_code').value;
+  var leCode = document.getElementById('txtle_code').value;
+  var resetButtonContainer = document.getElementById('resetButtonContainer');
+  var resetButton = document.getElementById('resetButton');
+  
+  if (subgroupCode!== "" || leCode!== "") {
+    // Show Reset button if either Sub-group Code or LE Code is entered
+    resetButton.style.display = 'inline'; // 'inline' for IE5 compatibility
+    resetButtonContainer.style.visibility = 'visible'; // Additional measure for IE5
+  } else {
+    // Hide Reset button if both Sub-group Code and LE Code are empty
+    resetButton.style.display = 'none';
+    resetButtonContainer.style.visibility = 'hidden'; // Additional measure for IE5
+  }
+}
+
+// Call toggleResetButton() on input field changes
+document.getElementById('txtsgr_code').onkeyup = toggleResetButton;
+document.getElementById('txtle_code').onkeyup = toggleResetButton;
+
+// Initial toggleResetButton() call to set the initial state
+toggleResetButton();
+
+
+
