@@ -1,0 +1,40 @@
+// Function to reset the form
+function resetForm() {
+  // Clear input fields
+  document.getElementById('txtsgr_code').value = "";
+  document.getElementById('txtsgr_name').value = "";
+  document.getElementById('txtle_code').value = "";
+  document.getElementById('txtle_name').value = "";
+  document.getElementById('codria_code').value = "";
+  document.getElementById('codria_le_code').value = "";
+
+  // Enable both Sub-group and LE options
+  document.getElementById('sub_group_option').disabled = false;
+  document.getElementById('le_option').disabled = false;
+
+  // Restore default display
+  document.getElementById('subgroup_row').style.display = '';
+  document.getElementById('le_row').style.display = 'none';
+  document.getElementById('codria_row').style.display = '';
+  document.getElementById('codria_le_row').style.display = 'none';
+
+  // **Select Sub-group option by default**
+  document.getElementById('sub_group_option').checked = true;
+  document.getElementById('le_option').checked = false;
+
+  // **Trigger toggleFields() to ensure UI consistency**
+  toggleFields();
+}
+<!--... (rest of the HTML code remains the same)... -->
+
+<tr align="center" valign="middle">
+  <td colspan="4" align="center" class="button-container">
+    <input type="button" name="fetchCFDetails" id="fetchCFDetails" value="Fetch Details" onclick="javascript:fetchDetails();">
+    &nbsp;&nbsp;
+    <input type="button" name="cancelButton" id="cancelButton" value="Cancel" onclick="history.back();">
+    &nbsp;&nbsp;
+    <input type="button" name="resetButton" id="resetButton" value="Reset" onclick="javascript:resetForm();">
+  </td>
+</tr>
+
+<!--... (rest of the HTML code remains the same)... -->
