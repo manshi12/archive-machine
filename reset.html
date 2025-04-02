@@ -48,8 +48,10 @@ function toggleResetButton() {
   var leCode = document.getElementById('txtle_code').value;
   var resetButtonContainer = document.getElementById('resetButtonContainer');
   var resetButton = document.getElementById('resetButton');
+<!-- new code added  -->
+ var isLeOptionSelected = document.getElementById('le_option').checked;
   
-  if (subgroupCode!== "" || leCode!== "") {
+ if ((subgroupCode!== "" &&!isLeOptionSelected) || (leCode!== "" && isLeOptionSelected)) {
     // Show Reset button if either Sub-group Code or LE Code is entered
     resetButton.style.display = 'inline'; // 'inline' for IE5 compatibility
     resetButtonContainer.style.visibility = 'visible'; // Additional measure for IE5
@@ -66,6 +68,14 @@ document.getElementById('txtle_code').onkeyup = toggleResetButton;
 
 // Initial toggleResetButton() call to set the initial state
 toggleResetButton();
+<!-- new things -->
+document.getElementById('resetButton').style.display = 'none';
 
-
+document.getElementById('txtle_code').onkeyup = function() {
+  toggleResetButton();
+  // **Also toggle fields to ensure LE row is displayed when entering LE Code**
+  if (document.getElementById('le_option').checked) {
+    toggleFields();
+  }
+};
 
