@@ -126,6 +126,7 @@ function initForm() {
   const subGroupOption = document.getElementById('sub_group_option');
   if (subGroupOption) {
     subGroupOption.checked = true;
+     toggleCodriaFields();
     
     // Add onchange handlers to the input fields
     const txtSgrCode = document.getElementById('txtsgr_code');
@@ -163,7 +164,7 @@ function initForm() {
     }
     
     // Run the toggle function to set the initial state
-    toggleCodriaFields();
+   
   }
   
   return true;
