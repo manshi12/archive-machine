@@ -114,3 +114,21 @@
 </form>
 </body>
 </html>
+
+
+
+var codriaforle=document.getElementbyId("codria_le_code");
+var codriaCode=document.getElementById("codria_code");
+if (codriaCode !== "") {
+      leOption.disabled = true;
+    } else {
+      leOption.disabled = false;
+    }
+    
+    // Disable subgroup option if LE code has value
+    if (codriaforle !== "") {
+      subGroupOption.disabled = true;
+    } else {
+      subGroupOption.disabled = false;
+    }
+  
