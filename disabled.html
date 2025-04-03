@@ -115,21 +115,17 @@
 </body>
 </html>
 
-
+function updateOptionDisabling(){
  var subGroupOption = document.getElementById('sub_group_option');
     var leOption = document.getElementById('le_option');
 var codriaforle=document.getElementbyId("codria_le_code");
 var codriaCode=document.getElementById("codria_code");
-if (codriaCode !== "") {
+if (codriaCode !== "" && subGroupOption.checked) {
       leOption.disabled = true;
-    } else {
-      leOption.disabled = false;
     }
     
     // Disable subgroup option if LE code has value
-    if (codriaforle !== "") {
+    if (codriaforle !== "" && leOption.checked) {
       subGroupOption.disabled = true;
-    } else {
-      subGroupOption.disabled = false;
     }
-  
+}
