@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CREDIT FILE/AUTHORIZATIONS: User Transfer</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #F0F0F0;
+    }
+    .header-bar {
+      background-color: #4682B4;
+      color: white;
+      padding: 5px 0;
+      width: 100%;
+    }
+    .BgWhite { background-color: #FFFFFF; }
+    .BgPaleOrange { background-color: #FFCC99; }
+    .SubHeading { 
+      font-weight: bold;
+      padding: 5px;
+      font-size: 12px;
+    }
+    .BodyText { 
+      font-size: 12px; 
+    }
+    .title-container {
+      background-color: #4682B4; 
+      color: white;
+      border-radius: 4px;
+      padding: 5px 15px;
+      display: inline-block;
+    }
+    .titlename { 
+      font-weight: bold; 
+      font-size: 14px;
+    }
+    input[type="button"] {
+      background-color: #4682B4;
+      color: white;
+      border: none;
+      padding: 5px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .warning {
+      color: red;
+      font-size: 13px;
+      text-align: left;
+      margin: 10px 0;
+    }
+    .form-container {
+      width: 65%;
+      margin: 0 auto;
+      background-color: #FFFFFF;
+    }
+    .option-box {
+      text-align: left;
+      border: 1px solid #000;
+      padding: 10px;
+      width: 200px;
+      margin-left: 0;
+      background-color: #F5F5F5;
+    }
+    .button-container {
+      text-align: center;
+      margin: 20px 0;
+    }
+    input[type="text"] {
+      border: 1px solid #AAAAAA;
+      background-color: #FFFFFF;
+      padding: 2px;
+    }
+    table {
+      border-collapse: collapse;
+    }
+    /* Style for disabled radio buttons */
+    input[type="radio"]:disabled + span {
+      color: #999999;
+    }
+  </style>
+  <script type="text/javascript">
+  // Cross-browser ready event polyfill
+  function domReady(callback) {
+    // Internet Explorer
+    if (document.attachEvent) {
+      // For IE browsers
+      if (document.readyState === "complete" || document.readyState === "loaded") {
+        callback();
+      } else {
+        document.attachEvent("onreadystatechange", function() {
+          if (document.readyState === "complete") {
+            callback();
+          }
+        });
+      }
+    } 
+    // Modern browsers
+    else if (document.addEventListener) {
+      document.addEventListener("DOMContentLoaded", callback, false);
+    }
+    // Fallback
+    else {
+      window.onload = callback;
+    }
+  }
+  
+  // Initialize default state
+  function initForm() {
+    // Set default state - Sub-group selected
+    if (document.getElementById('sub_group_option')) {
+      document.getElementById('sub_group_option').checked = true;
+      toggleFields();
+      // Initialize reset button visibility
+      updateResetButtonVisibility();
+      // Initialize option disabling
+      updateOptionDisabling();
+    }
+    return true;
+  }
+  
+  // Function to toggle fields based on selection
+  function toggleFields() {
+    if (document.getElementById('le_option') && document.getElementById('le_option').checked) {
+      // If LE is selected
+      document.getElementById('subgroup_row').style.display = 'none';
+      document.getElementById('le_row').style.display = '';
+      document.getElementById('codria_row').style.display = 'none';
+      document.getElementById('codria_le_row').style.display = '';
+    } else {
+      // If Sub-group is selected
+      document.getElementById('subgroup_row').style.display = '';
+      document.getElementById('le_row').style.display = 'none';
+      document.getElementById('codria_row').style.display = '';
+      document.getElementById('codria_le_row').style.display = 'none';
+    }
+    
+    // Update reset button visibility after toggling fields
+    updateResetButtonVisibility();
+    // Update option disabling
+    updateOptionDisabling();
+  }
+  
+  // Function to update reset button visibility
+  function updateResetButtonVisibility() {
+    var resetButton = document.getElementById('resetButton');
+    var isLeOptionSelected = document.getElementById('le_option').checked;
+    var subgroupCode = document.getElementById('txtsgr_code').value;
+    var leCode = document.getElementById('txtle_code').value;
+    
+    // Show reset button only if there's input in the active input field
+    if ((subgroupCode !== "" && !isLeOptionSelected) || 
+        (leCode !== "" && isLeOptionSelected)) {
+      resetButton.style.display = 'inline';
+    } else {
+      resetButton.style.display = 'none';
+    }
+  }
+  
+  // Function to update option disabling
+  function updateOptionDisabling() {
+    var subGroupOption = document.getElementById('sub_group_option');
+    var leOption = document.getElementById('le_option');
+    var subgroupCode = document.getElementById('txtsgr_code').value;
+    var leCode = document.getElementById('txtle_code').value;
+    
+    // Disable LE option if subgroup code has value
+    if (subgroupCode !== "") {
+      leOption.disabled = true;
+    } else {
+      leOption.disabled = false;
+    }
+    
+    // Disable subgroup option if LE code has value
+    if (leCode !== "") {
+      subGroupOption.disabled = true;
+    } else {
+      subGroupOption.disabled = false;
+    }
+  }
+  
+  // Function to handle input changes
+  function handleInputChange(inputId) {
+    // Call the original search function
+    inputfieldsearch(inputId);
+    
+    // Update reset button visibility and option disabling
+    updateResetButtonVisibility();
+    updateOptionDisabling();
+  }
+  
+  // Function to handle fetch details
+  function fetchDetails() {
+    var codriaValue;
+    
+    if (document.getElementById('le_option') && document.getElementById('le_option').checked) {
+      codriaValue = document.getElementById('codria_le_code').value;
+    } else {
+      codriaValue = document.getElementById('codria_code').value;
+    }
+    
+    console.log("Fetching details with CODRIA value: " + codriaValue);
+    // Your fetch logic here
+  }
+  
+  // Function to handle input field search
+  function inputfieldsearch(fieldId) {
+    console.log("Input field search triggered for: " + fieldId);
+    // Your input field search logic here
+  }
+  
+  // Function to reset the form
+  function resetForm() {
+    // Clear input fields
+    document.getElementById('txtsgr_code').value = "";
+    document.getElementById('txtsgr_name').value = "";
+    document.getElementById('txtle_code').value = "";
+    document.getElementById('txtle_name').value = "";
+    document.getElementById('codria_code').value = "";
+    document.getElementById('codria_le_code').value = "";
+
+    // Set Sub-group as default option and enable both options
+    document.getElementById('sub_group_option').checked = true;
+    document.getElementById('le_option').checked = false;
+    document.getElementById('sub_group_option').disabled = false;
+    document.getElementById('le_option').disabled = false;
+
+    // Restore default display
+    toggleFields();
+    
+    // Update reset button visibility and option disabling
+    updateResetButtonVisibility();
+    updateOptionDisabling();
+  }
+  
+  // Call domReady with your initialization function
+  domReady(function() {
+    initForm();
+    
+    // Add event listeners for text fields
+    var txtSgrCode = document.getElementById('txtsgr_code');
+    var txtLeCode = document.getElementById('txtle_code');
+    
+    // For IE5 compatibility
+    if (txtSgrCode.attachEvent) {
+      txtSgrCode.attachEvent('onkeyup', function() {
+        updateResetButtonVisibility();
+        updateOptionDisabling();
+      });
+      txtLeCode.attachEvent('onkeyup', function() {
+        updateResetButtonVisibility();
+        updateOptionDisabling();
+      });
+    } else {
+      txtSgrCode.addEventListener('keyup', function() {
+        updateResetButtonVisibility();
+        updateOptionDisabling();
+      }, false);
+      txtLeCode.addEventListener('keyup', function() {
+        updateResetButtonVisibility();
+        updateOptionDisabling();
+      }, false);
+    }
+    
+    // For radio buttons
+    var subGroupOption = document.getElementById('sub_group_option');
+    var leOption = document.getElementById('le_option');
+    
+    if (subGroupOption.attachEvent) {
+      subGroupOption.attachEvent('onclick', toggleFields);
+      leOption.attachEvent('onclick', toggleFields);
+    } else {
+      subGroupOption.addEventListener('click', toggleFields, false);
+      leOption.addEventListener('click', toggleFields, false);
+    }
+  });
+  </script>
+</head>
+<body>
+<form name="CF10" id="CF10" style='width:100%; text-align:center;'>
+  <input type="hidden" name="firstVisit" id="firstVisit" value="">
+  <input type="hidden" name="codUsr" id="codUsr" value="">
+  <input type="hidden" name="todo_type" id="todo_type" value="">
+  <input type="hidden" name="codgrp" id="codgrp" value="">
+  <input type="hidden" name="CF_Level" id="CF_Level" value="">
+  
+  <table class="form-container" border="0" cellspacing="0" cellpadding="0">
+    <tr class="BgWhite"><td colspan="4">&nbsp;</td></tr>
+    <tr class="BgWhite"><td colspan="4">&nbsp;</td></tr>
+    
+    <tr class="BgWhite" valign="top" align="center">
+      <td colspan="4">
+        <div class="title-container"><span class="titlename">CREDIT FILE/AUTHORIZATIONS: User Transfer</span></div>
+      </td>
+    </tr>
+    
+    <tr class="BgWhite"><td colspan="4">&nbsp;</td></tr>
+    <tr class="BgWhite"><td colspan="4">&nbsp;</td></tr>
+    
+    <tr><td colspan="4">
+      <p class="warning"> * Only few status are allowed to transfer. Creation/Intermediate Validation/Final Validation/Notified.</p>
+    </td></tr>
+    
+    <tr class="BgPaleOrange"><td height="13" colspan="4" class="SubHeading">Counterparty</td></tr>
+    
+    <!-- Sub-group section -->
+    <tr bgcolor="#FFCC99" id="subgroup_row">
+      <td height="28" class="BodyText" width="25%" align="left" nowrap>
+        Sub-group Code:
+      </td>
+      <td height="28" class="BodyText" width="25%" id="subgroupname_code">
+        <input type="text" name="txtsgr_code" id="txtsgr_code" size="12" maxlength="8" class="BodyText" onchange="handleInputChange(this.id);">
+      </td>
+      <td width="15%" height="31" class="BodyText" align="right" nowrap>
+        Sub-group Name:
+      </td>
+      <td width="35%" height="31" class="BodyText" id="subgroupname_id">
+        <input type="text" name="txtsgr_name" id="txtsgr_name" size="40" maxlength="40" class="BodyText" onchange="handleInputChange(this.id);">
+      </td>
+    </tr>
+    
+    <!-- LE section -->
+    <tr bgcolor="#FFCC99" id="le_row" style="display: none;">
+      <td height="28" class="BodyText" width="25%" align="left" nowrap>
+        LE Code:
+      </td>
+      <td width="25%" height="31" class="BodyText" id="legroupname_code">
+        <input type="text" id="txtle_code" name="txtle_code" size="12" maxlength="8" class="BodyText" onchange="handleInputChange(this.id);">
+      </td>
+      <td width="15%" height="31" class="BodyText" align="right" nowrap>
+        LE Name:
+      </td>
+      <td width="35%" height="31" class="BodyText" id="legroupname_id">
+        <input type="text" id="txtle_name" name="txtle_name" size="40" maxlength="40" class="BodyText" onchange="handleInputChange(this.id);">
+      </td>
+    </tr>
+    
+    <!-- CODRIA fields -->
+    <tr bgcolor="#FFCC99" id="codria_row">
+      <td height="28" class="BodyText" width="25%" align="left">CODRIA / Reference No.:</td>
+      <td colspan="3" align="left">
+        <input type="text" id="codria_code" name="codria_code" size="25" maxlength="8" class="BodyText">
+      </td>
+    </tr>
+    
+    <!-- CODRIA for LE field -->
+    <tr bgcolor="#FFCC99" id="codria_le_row" style="display: none;">
+      <td height="28" class="BodyText" width="25%" align="left">CODRIA for LE:</td>
+      <td colspan="3" align="left">
+        <input type="text" id="codria_le_code" name="codria_le_code" size="25" maxlength="8" class="BodyText">
+      </td>
+    </tr>
+    
+    <!-- Select Option Section -->
+    <tr bgcolor="#FFCC99">
+      <td height="28" class="BodyText" width="25%" align="left" valign="top">
+        Select Option:
+      </td>
+      <td colspan="3" align="left">
+        <div class="option-box">
+          <div>
+            <input type="radio" name="selectOption" id="sub_group_option" value="sub_group" checked> Sub-group
+          </div>
+          <div>
+            <input type="radio" name="selectOption" id="le_option" value="le"> LE
+          </div>
+        </div>
+      </td>
+    </tr>
+    
+    <tr class="BgWhite"><td colspan="4" height="13">&nbsp;</td></tr>
+    
+    <tr align="center" valign="middle">
+      <td colspan="4" align="center" class="button-container">
+        <input type="button" name="fetchCFDetails" id="fetchCFDetails" value="Fetch Details" onclick="javascript:fetchDetails();">
+        &nbsp;&nbsp;
+        <input type="button" name="cancelButton" id="cancelButton" value="Cancel" onclick="history.back();">
+        &nbsp;&nbsp;
+        <input type="button" name="resetButton" id="resetButton" value="Reset" onclick="javascript:resetForm();" style="display:none;">
+      </td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>
