@@ -1,0 +1,177 @@
+<script type="text/javascript">
+// Function to handle the main logic
+function toggleCodriaFields() {
+  // Get references to all relevant elements
+  const subGroupOption = document.getElementById('sub_group_option');
+  const leOption = document.getElementById('le_option');
+  const sgrSection = document.getElementById('SGR_SEC');
+  const leSection = document.getElementById('LE_SEC');
+  const codriaSection = document.getElementById('codria_section');
+  const codriaLeSection = document.getElementById('codria_le_section');
+  const fetchCFDetails = document.getElementById('fetchCFDetails');
+  const fetchCFDetailsLe = document.getElementById('fetchCFDetailsle');
+  const txtSgrCode = document.getElementById('txtsgr_code');
+  const txtLECode = document.getElementById('txtle_code');
+  const codriaCode = document.getElementById('codria_code');
+  const codriaLeCode = document.getElementById('codria_le_code');
+  
+  if (subGroupOption && subGroupOption.checked) {
+    // If Sub-group is selected
+    if (sgrSection) sgrSection.style.display = '';
+    if (codriaSection) codriaSection.style.display = '';
+    if (fetchCFDetails) fetchCFDetails.style.display = '';
+    
+    // Hide LE-related elements
+    if (leSection) leSection.style.display = 'none';
+    if (codriaLeSection) codriaLeSection.style.display = 'none';
+    if (fetchCFDetailsLe) fetchCFDetailsLe.style.display = 'none';
+    
+    // Disable LE option if any Sub-group fields have values
+    if (leOption) {
+      leOption.disabled = (txtSgrCode && txtSgrCode.value !== "") || 
+                          (codriaCode && codriaCode.value !== "");
+    }
+  } else {
+    // If LE is selected
+    if (leSection) leSection.style.display = '';
+    if (codriaLeSection) codriaLeSection.style.display = '';
+    if (fetchCFDetailsLe) fetchCFDetailsLe.style.display = '';
+    
+    // Hide Sub-group related elements
+    if (sgrSection) sgrSection.style.display = 'none';
+    if (codriaSection) codriaSection.style.display = 'none';
+    if (fetchCFDetails) fetchCFDetails.style.display = 'none';
+    
+    // Disable Sub-group option if any LE fields have values
+    if (subGroupOption) {
+      subGroupOption.disabled = (txtLECode && txtLECode.value !== "") || 
+                               (codriaLeCode && codriaLeCode.value !== "");
+    }
+  }
+}
+
+// Function to handle changes to the codria field for LE
+function handleCodriaChangeForLE() {
+  const codriaLeCode = document.getElementById('codria_le_code');
+  const subGroupOption = document.getElementById('sub_group_option');
+  
+  if (codriaLeCode && subGroupOption) {
+    // If codria for LE has a value, disable the sub-group option
+    subGroupOption.disabled = codriaLeCode.value !== "";
+  }
+  
+  // You might want to add your original field search functionality here
+  // inputfieldsearch("codria_le_code");
+}
+
+// Function to handle changes to the codria field for subgroup
+function handleCodriaChangeForSubgroup() {
+  const codriaCode = document.getElementById('codria_code');
+  const leOption = document.getElementById('le_option');
+  
+  if (codriaCode && leOption) {
+    // If codria has a value, disable the LE option
+    leOption.disabled = codriaCode.value !== "";
+  }
+  
+  // You might want to add your original field search functionality here
+  // inputfieldsearch("codria_code");
+}
+
+// Improved domReady function that works across browsers
+function domReady(callback) {
+  // Internet Explorer
+  if (document.attachEvent) {
+    if (document.readyState === "complete" || document.readyState === "loaded") {
+      callback();
+    } else {
+      document.attachEvent("onreadystatechange", function() {
+        if (document.readyState === "complete") {
+          callback();
+        }
+      });
+    }
+  }
+  // Modern browsers
+  else if (document.addEventListener) {
+    document.addEventListener("DOMContentLoaded", callback, false);
+  }
+  // Fallback
+  else {
+    window.onload = callback;
+  }
+}
+
+// Placeholder for the inputfieldsearch function
+function inputfieldsearch(id) {
+  // Your original inputfieldsearch function code here
+  console.log("Input field search triggered for: " + id);
+}
+
+// Placeholder for the sgrLeReset function
+function sgrLeReset(type) {
+  if (type === 'sgrle') {
+    // Reset all subgroup fields
+    const txtSgrCode = document.getElementById('txtsgr_code');
+    const txtSgrName = document.getElementById('txtsgr_name');
+    if (txtSgrCode) txtSgrCode.value = '';
+    if (txtSgrName) txtSgrName.value = '';
+    
+    // Re-enable LE option
+    const leOption = document.getElementById('le_option');
+    if (leOption) leOption.disabled = false;
+  }
+}
+
+// Placeholder functions for the fetch buttons
+function fetchSubgroupDetails() {
+  // Your code to fetch subgroup details
+  console.log("Fetching subgroup details");
+}
+
+function fetchLEDetails() {
+  // Your code to fetch LE details
+  console.log("Fetching LE details");
+}
+
+// Initialize the form
+function initForm() {
+  // Set default state: Sub-group selected
+  const subGroupOption = document.getElementById('sub_group_option');
+  if (subGroupOption) {
+    subGroupOption.checked = true;
+    
+    // Add onchange handlers to the input fields
+    const txtSgrCode = document.getElementById('txtsgr_code');
+    const txtLECode = document.getElementById('txtle_code');
+    
+    if (txtSgrCode) {
+      txtSgrCode.onchange = function() {
+        const leOption = document.getElementById('le_option');
+        if (leOption) {
+          leOption.disabled = this.value !== "";
+        }
+        inputfieldsearch(this.id); // Keep the original functionality
+      };
+    }
+    
+    if (txtLECode) {
+      txtLECode.onchange = function() {
+        const subGroupOption = document.getElementById('sub_group_option');
+        if (subGroupOption) {
+          subGroupOption.disabled = this.value !== "";
+        }
+        inputfieldsearch(this.id); // Keep the original functionality
+      };
+    }
+    
+    // Run the toggle function to set the initial state
+    toggleCodriaFields();
+  }
+  
+  return true;
+}
+
+// Initialize everything when the DOM is ready
+domReady(initForm);
+</script>
