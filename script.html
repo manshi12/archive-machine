@@ -1,5 +1,6 @@
 <script type="text/javascript">
 // Function to handle the main logic
+// Function to handle the main logic
 function toggleCodriaFields() {
   // Get references to all relevant elements
   const subGroupOption = document.getElementById('sub_group_option');
@@ -8,8 +9,8 @@ function toggleCodriaFields() {
   const leSection = document.getElementById('LE_SEC');
   const codriaSection = document.getElementById('codria_section');
   const codriaLeSection = document.getElementById('codria_le_section');
-  const fetchCFDetails = document.getElementById('fetchCFDetails');
-  const fetchCFDetailsLe = document.getElementById('fetchCFDetailsle');
+
+
   const txtSgrCode = document.getElementById('txtsgr_code');
   const txtLECode = document.getElementById('txtle_code');
   const codriaCode = document.getElementById('codria_code');
@@ -19,12 +20,12 @@ function toggleCodriaFields() {
     // If Sub-group is selected
     if (sgrSection) sgrSection.style.display = '';
     if (codriaSection) codriaSection.style.display = '';
-    if (fetchCFDetails) fetchCFDetails.style.display = '';
+    
     
     // Hide LE-related elements
     if (leSection) leSection.style.display = 'none';
     if (codriaLeSection) codriaLeSection.style.display = 'none';
-    if (fetchCFDetailsLe) fetchCFDetailsLe.style.display = 'none';
+    
     
     // Disable LE option if any Sub-group fields have values
     if (leOption) {
@@ -35,12 +36,12 @@ function toggleCodriaFields() {
     // If LE is selected
     if (leSection) leSection.style.display = '';
     if (codriaLeSection) codriaLeSection.style.display = '';
-    if (fetchCFDetailsLe) fetchCFDetailsLe.style.display = '';
+  
     
     // Hide Sub-group related elements
     if (sgrSection) sgrSection.style.display = 'none';
     if (codriaSection) codriaSection.style.display = 'none';
-    if (fetchCFDetails) fetchCFDetails.style.display = 'none';
+
     
     // Disable Sub-group option if any LE fields have values
     if (subGroupOption) {
@@ -50,8 +51,8 @@ function toggleCodriaFields() {
   }
 }
 
-// Function to handle changes to the codria field for LE
-function handleCodriaChangeForLE() {
+// RENAMED FUNCTION: To avoid conflicts with the original handleCodriaChangeForLE
+function toggleSubgroupOptionOnLECodriaChange() {
   const codriaLeCode = document.getElementById('codria_le_code');
   const subGroupOption = document.getElementById('sub_group_option');
   
@@ -60,12 +61,12 @@ function handleCodriaChangeForLE() {
     subGroupOption.disabled = codriaLeCode.value !== "";
   }
   
-  // You might want to add your original field search functionality here
-  // inputfieldsearch("codria_le_code");
+  // After toggling, call the original AJAX function if needed
+  handleCodriaChangeForLE();
 }
 
-// Function to handle changes to the codria field for subgroup
-function handleCodriaChangeForSubgroup() {
+// RENAMED FUNCTION: To avoid conflicts with the original handleCodriaChangeForSubgroup
+function toggleLEOptionOnSubgroupCodriaChange() {
   const codriaCode = document.getElementById('codria_code');
   const leOption = document.getElementById('le_option');
   
@@ -74,8 +75,8 @@ function handleCodriaChangeForSubgroup() {
     leOption.disabled = codriaCode.value !== "";
   }
   
-  // You might want to add your original field search functionality here
-  // inputfieldsearch("codria_code");
+  // After toggling, call the original AJAX function if needed
+  handleCodriaChangeForSubgroup();
 }
 
 // Improved domReady function that works across browsers
@@ -123,17 +124,6 @@ function sgrLeReset(type) {
   }
 }
 
-// Placeholder functions for the fetch buttons
-function fetchSubgroupDetails() {
-  // Your code to fetch subgroup details
-  console.log("Fetching subgroup details");
-}
-
-function fetchLEDetails() {
-  // Your code to fetch LE details
-  console.log("Fetching LE details");
-}
-
 // Initialize the form
 function initForm() {
   // Set default state: Sub-group selected
@@ -144,6 +134,8 @@ function initForm() {
     // Add onchange handlers to the input fields
     const txtSgrCode = document.getElementById('txtsgr_code');
     const txtLECode = document.getElementById('txtle_code');
+    const codriaCode = document.getElementById('codria_code');
+    const codriaLeCode = document.getElementById('codria_le_code');
     
     if (txtSgrCode) {
       txtSgrCode.onchange = function() {
@@ -165,6 +157,15 @@ function initForm() {
       };
     }
     
+    // Add onchange handlers for the codria fields
+    if (codriaCode) {
+      codriaCode.onchange = toggleLEOptionOnSubgroupCodriaChange;
+    }
+    
+    if (codriaLeCode) {
+      codriaLeCode.onchange = toggleSubgroupOptionOnLECodriaChange;
+    }
+    
     // Run the toggle function to set the initial state
     toggleCodriaFields();
   }
@@ -175,3 +176,5 @@ function initForm() {
 // Initialize everything when the DOM is ready
 domReady(initForm);
 </script>
+
+
