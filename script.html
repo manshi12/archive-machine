@@ -106,19 +106,19 @@ function domReady(callback) {
 
 
 // Placeholder for the sgrLeReset function
-function sgrLeReset(type) {
-  if (type === 'sgrle') {
-    // Reset all subgroup fields
-    const txtSgrCode = document.getElementById('txtsgr_code');
-    const txtSgrName = document.getElementById('txtsgr_name');
-    if (txtSgrCode) txtSgrCode.value = '';
-    if (txtSgrName) txtSgrName.value = '';
+// function sgrLeReset(type) {
+//   if (type === 'sgrle') {
+//     // Reset all subgroup fields
+//     const txtSgrCode = document.getElementById('txtsgr_code');
+//     const txtSgrName = document.getElementById('txtsgr_name');
+//     if (txtSgrCode) txtSgrCode.value = '';
+//     if (txtSgrName) txtSgrName.value = '';
     
-    // Re-enable LE option
-    const leOption = document.getElementById('le_option');
-    if (leOption) leOption.disabled = false;
-  }
-}
+//     // Re-enable LE option
+//     const leOption = document.getElementById('le_option');
+//     if (leOption) leOption.disabled = false;
+//   }
+// }
 
 // Initialize the form
 function initForm() {
