@@ -128,40 +128,40 @@ function initForm() {
     subGroupOption.checked = true;
      toggleCodriaFields();
     
-    // Add onchange handlers to the input fields
-    const txtSgrCode = document.getElementById('txtsgr_code');
-    const txtLECode = document.getElementById('txtle_code');
-    const codriaCode = document.getElementById('codria_code');
-    const codriaLeCode = document.getElementById('codria_le_code');
+    // // Add onchange handlers to the input fields
+    // const txtSgrCode = document.getElementById('txtsgr_code');
+    // const txtLECode = document.getElementById('txtle_code');
+    // const codriaCode = document.getElementById('codria_code');
+    // const codriaLeCode = document.getElementById('codria_le_code');
     
-    if (txtSgrCode) {
-      txtSgrCode.onchange = function() {
-        const leOption = document.getElementById('le_option');
-        if (leOption) {
-          leOption.disabled = this.value !== "";
-        }
-        inputfieldsearch(this.id); // Keep the original functionality
-      };
-    }
+    // if (txtSgrCode) {
+    //   txtSgrCode.onchange = function() {
+    //     const leOption = document.getElementById('le_option');
+    //     if (leOption) {
+    //       leOption.disabled = this.value !== "";
+    //     }
+    //     inputfieldsearch(this.id); // Keep the original functionality
+    //   };
+    // }
     
-    if (txtLECode) {
-      txtLECode.onchange = function() {
-        const subGroupOption = document.getElementById('sub_group_option');
-        if (subGroupOption) {
-          subGroupOption.disabled = this.value !== "";
-        }
-        inputfieldsearch(this.id); // Keep the original functionality
-      };
-    }
+    // if (txtLECode) {
+    //   txtLECode.onchange = function() {
+    //     const subGroupOption = document.getElementById('sub_group_option');
+    //     if (subGroupOption) {
+    //       subGroupOption.disabled = this.value !== "";
+    //     }
+    //     inputfieldsearch(this.id); // Keep the original functionality
+    //   };
+    // }
     
-    // Add onchange handlers for the codria fields
-    if (codriaCode) {
-      codriaCode.onchange = toggleLEOptionOnSubgroupCodriaChange;
-    }
+    // // Add onchange handlers for the codria fields
+    // if (codriaCode) {
+    //   codriaCode.onchange = toggleLEOptionOnSubgroupCodriaChange;
+    // }
     
-    if (codriaLeCode) {
-      codriaLeCode.onchange = toggleSubgroupOptionOnLECodriaChange;
-    }
+    // if (codriaLeCode) {
+    //   codriaLeCode.onchange = toggleSubgroupOptionOnLECodriaChange;
+    // }
     
     // Run the toggle function to set the initial state
    
