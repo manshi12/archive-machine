@@ -1,11 +1,15 @@
 function submitForm() {
   var xhr = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
   var subGroupOption = document.getElementById('sub_group_option');
-  var selectedOption = subGroupOption.checked ? 'sub_group' : 'le';
+  // var selectedOption = subGroupOption.checked ? 'sub_group' : 'le';
+  var isSubGroupSelected = subGroupOption.checked;
+  var selectedOption = isSubGroupSelected ? 'sub_group' : 'le';
+  
   var sgrCode = document.getElementById('txtsgr_code').value;
   var leCode = document.getElementById('txtle_code').value;
   var codria = subGroupOption.checked ? document.getElementById('codria_code').value : document.getElementById('codria_le_code').value;
-  var cfLevel = subGroupOption.checked ? 'ALL' : leCode; // Calculate CF_Level client-side
+  // var cfLevel = subGroupOption.checked ? 'ALL' : leCode; // Calculate CF_Level client-side
+  var cfLevel = isSubGroupSelected ? 'ALL' : leCode; // Calculate CF_Level client-side
 
   var params = "searchType=saveUserAccessTransferComment" +
                "&sub_group_code=" + encodeURIComponent(sgrCode) +
