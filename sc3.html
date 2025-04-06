@@ -1,0 +1,165 @@
+<script type="text/javascript">
+    function domReady(callback) {
+      if (document.attachEvent) {
+        if (document.readyState === "complete" || document.readyState === "loaded") {
+          callback();
+        } else {
+          document.attachEvent("onreadystatechange", function() {
+            if (document.readyState === "complete") {
+              callback();
+            }
+          });
+        }
+      } else if (document.addEventListener) {
+        document.addEventListener("DOMContentLoaded", callback, false);
+      } else {
+        window.onload = callback;
+      }
+    }
+
+    function initForm() {
+      if (document.getElementById('sub_group_option')) {
+        document.getElementById('sub_group_option').checked = true;
+        toggleCodriaFields();
+        updateOptionDisabling();
+        updateResetVisibility();
+      }
+      return true;
+    }
+
+    function toggleCodriaFields() {
+      var subGroupOption = document.getElementById('sub_group_option');
+      var leOption = document.getElementById('le_option');
+      var resetButton = document.getElementById('resetButton');
+      
+      if (subGroupOption.checked) {
+        document.getElementById('codria_section').style.display = '';
+        document.getElementById('SGR_SEC').style.display = '';
+        document.getElementById('codria_le_section').style.display = 'none';
+        document.getElementById('LE_SEC').style.display = 'none';
+        document.getElementById('sgr_reset_container').appendChild(resetButton);
+      } else {
+        document.getElementById('codria_le_section').style.display = '';
+        document.getElementById('LE_SEC').style.display = '';
+        document.getElementById('codria_section').style.display = 'none';
+        document.getElementById('SGR_SEC').style.display = 'none';
+        document.getElementById('le_reset_container').appendChild(resetButton);
+      }
+      updateOptionDisabling();
+      updateResetVisibility();
+    }
+
+    function updateOptionDisabling() {
+      var subGroupOption = document.getElementById('sub_group_option');
+      var leOption = document.getElementById('le_option');
+      var sgrCode = document.getElementById('txtsgr_code').value;
+      var leCode = document.getElementById('txtle_code').value;
+      var codriaCode = document.getElementById('codria_code').value;
+      var codriaLeCode = document.getElementById('codria_le_code').value;
+
+      if (subGroupOption.checked) {
+        leOption.disabled = (sgrCode !== "" || codriaCode !== "");
+      } else {
+        subGroupOption.disabled = (leCode !== "" || codriaLeCode !== "");
+      }
+    }
+
+    function updateResetVisibility() {
+      var resetButton = document.getElementById('resetButton');
+      var subGroupOption = document.getElementById('sub_group_option');
+      var sgrCode = document.getElementById('txtsgr_code').value;
+      var leCode = document.getElementById('txtle_code').value;
+
+      if (subGroupOption.checked) {
+        resetButton.style.display = (sgrCode !== "") ? 'inline' : 'none';
+      } else {
+        resetButton.style.display = (leCode !== "") ? 'inline' : 'none';
+      }
+    }
+
+    function inputfieldsearch(fieldId) {
+      console.log("Input field search triggered for: " + fieldId);
+      updateOptionDisabling();
+      updateResetVisibility();
+    }
+
+    // function handleCodriaChangeaforle() {
+    //   updateOptionDisabling();
+    // }
+
+    function resetForm() {
+      window.location.reload();
+    }
+
+    domReady(function() {
+      initForm();
+
+      var inputs = [
+        'txtsgr_code', 
+        'txtsgr_name', 
+        'txtle_code', 
+        'txtle_name',
+        'codria_code',
+        'codria_le_code'
+      ];
+
+      for (var i = 0; i < inputs.length; i++) {
+        var input = document.getElementById(inputs[i]);
+        if (input) {
+          if (input.attachEvent) {
+            input.attachEvent('onkeyup', function() {
+              updateOptionDisabling();
+              updateResetVisibility();
+            });
+          } else {
+            input.addEventListener('keyup', function() {
+              updateOptionDisabling();
+              updateResetVisibility();
+            }, false);
+          }
+        }
+      }
+
+      var subGroupOption = document.getElementById('sub_group_option');
+      var leOption = document.getElementById('le_option');
+
+      if (subGroupOption.attachEvent) {
+        subGroupOption.attachEvent('onclick', toggleCodriaFields);
+        leOption.attachEvent('onclick', toggleCodriaFields);
+      } else {
+        subGroupOption.addEventListener('click', toggleCodriaFields, false);
+        leOption.addEventListener('click', toggleCodriaFields, false);
+      }
+    });
+  </script>
+
+
+  <tr bgcolor="#FFCC99" id="SGR_SEC">
+      <td height="28" class="BodyText" width="25%" align="left" nowrap>Sub-group Code:</td>
+      <td height="28" class="BodyText" width="25%" id="subgroupname_code">
+        <input type="text" name="txtsgr_code" id="txtsgr_code" size="12" maxlength="8" class="BodyText" onchange="inputfieldsearch(this.id);">
+      </td>
+      <td width="15%" height="31" class="BodyText" align="right" nowrap>Sub-group Name:</td>
+      <td width="35%" height="31" class="BodyText" id="subgroupname_id">
+        <input type="text" name="txtsgr_name" id="txtsgr_name" size="12" maxlength="8" class="BodyText" onchange="inputfieldsearch(this.id);">
+      </td>
+      <td>
+        <div id="sgr_reset_container" class="reset-container">
+          <button id="resetButton" onclick="javascript:resetForm();" style="display:none;">Reset</button>
+        </div>
+      </td>
+    </tr>
+
+    <tr bgcolor="#FFCC99" id="LE_SEC" style="display: none;">
+      <td height="28" class="BodyText" width="25%" align="left" nowrap>LE Code:</td>
+      <td width="25%" height="31" class="BodyText" id="legroupname_code">
+        <input type="text" id="txtle_code" name="txtle_code" size="12" maxlength="8" class="BodyText" onchange="inputfieldsearch(this.id);">
+      </td>
+      <td width="15%" height="31" class="BodyText" align="right" nowrap>LE Name:</td>
+      <td width="35%" height="31" class="BodyText" id="legroupname_id">
+        <input type="text" id="txtle_name" name="txtle_name" size="12" maxlength="8" class="BodyText" onchange="inputfieldsearch(this.id);">
+      </td>
+      <td>
+        <div id="le_reset_container" class="reset-container"></div>
+      </td>
+    </tr>
