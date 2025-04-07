@@ -1,0 +1,137 @@
+<script type="text/javascript">
+    function domReady(callback) {
+      if (document.attachEvent) {
+        if (document.readyState === "complete" || document.readyState === "loaded") {
+          callback();
+        } else {
+          document.attachEvent("onreadystatechange", function() {
+            if (document.readyState === "complete") {
+              callback();
+            }
+          });
+        }
+      } else if (document.addEventListener) {
+        document.addEventListener("DOMContentLoaded", callback, false);
+      } else {
+        window.onload = callback;
+      }
+    }
+
+    function initForm() {
+      if (document.getElementById('sub_group_option')) {
+        document.getElementById('sub_group_option').checked = true;
+        toggleCodriaFields();
+        updateOptionDisabling();
+        updateResetVisibility();
+      }
+      return true;
+    }
+
+    function toggleCodriaFields() {
+      var subGroupOption = document.getElementById('sub_group_option');
+      var leOption = document.getElementById('le_option');
+      var resetButton = document.getElementById('resetButton');
+      
+      if (subGroupOption.checked) {
+        document.getElementById('codria_section').style.display = '';
+        document.getElementById('SGR_SEC').style.display = '';
+        document.getElementById('codria_le_section').style.display = 'none';
+        document.getElementById('LE_SEC').style.display = 'none';
+        document.getElementById('sgr_reset_container').appendChild(resetButton);
+      } else {
+        document.getElementById('codria_le_section').style.display = '';
+        document.getElementById('LE_SEC').style.display = '';
+        document.getElementById('codria_section').style.display = 'none';
+        document.getElementById('SGR_SEC').style.display = 'none';
+        document.getElementById('le_reset_container').appendChild(resetButton);
+      }
+      updateOptionDisabling();
+      updateResetVisibility();
+    }
+
+    function updateOptionDisabling() {
+      var subGroupOption = document.getElementById('sub_group_option');
+      var leOption = document.getElementById('le_option');
+      var sgrCode = document.getElementById('txtsgr_code').value;
+      var leCode = document.getElementById('txtle_code').value;
+      var codriaCode = document.getElementById('codria_code').value;
+      var codriaLeCode = document.getElementById('codria_le_code').value;
+
+      if (subGroupOption.checked) {
+        leOption.disabled = (sgrCode !== "" || codriaCode !== "");
+      } else {
+        subGroupOption.disabled = (leCode !== "" || codriaLeCode !== "");
+      }
+    }
+
+    function updateResetVisibility() {
+      var resetButton = document.getElementById('resetButton');
+      var subGroupOption = document.getElementById('sub_group_option');
+      var sgrCode = document.getElementById('txtsgr_code').value;
+      var leCode = document.getElementById('txtle_code').value;
+      var codriaCode = document.getElementById('codria_code').value;
+      var codriaLeCode = document.getElementById('codria_le_code').value;
+      // updated
+      if (subGroupOption.checked) {
+        resetButton.style.display = (sgrCode !== "" || codriaCode !== "") ? 'inline' : 'none';
+      } else {
+        resetButton.style.display = (leCode !== "" || codriaLeCode !== "") ? 'inline' : 'none';
+      }
+    }
+
+    // function inputfieldsearch(fieldId) {
+    //   console.log("Input field search triggered for: " + fieldId);
+    //   updateOptionDisabling();
+    //   updateResetVisibility();
+    // }
+
+    // function handleCodriaChangeaforle() {
+    //   updateOptionDisabling();
+    //   updateResetVisibility();
+    // }
+
+    function resetForm() {
+      window.location.reload();
+    }
+
+    domReady(function() {
+      initForm();
+
+      var inputs = [
+        'txtsgr_code', 
+        'txtsgr_name', 
+        'txtle_code', 
+        'txtle_name',
+        'codria_code',
+        'codria_le_code'
+      ];
+
+      for (var i = 0; i < inputs.length; i++) {
+        var input = document.getElementById(inputs[i]);
+        if (input) {
+          if (input.attachEvent) {
+            input.attachEvent('onkeyup', function() {
+              updateOptionDisabling();
+              updateResetVisibility();
+            });
+          } else {
+            input.addEventListener('keyup', function() {
+              updateOptionDisabling();
+              updateResetVisibility();
+            }, false);
+          }
+        }
+      }
+
+      var subGroupOption = document.getElementById('sub_group_option');
+      var leOption = document.getElementById('le_option');
+
+      if (subGroupOption.attachEvent) {
+        subGroupOption.attachEvent('onclick', toggleCodriaFields);
+        leOption.attachEvent('onclick', toggleCodriaFields);
+      } else {
+        subGroupOption.addEventListener('click', toggleCodriaFields, false);
+        leOption.addEventListener('click', toggleCodriaFields, false);
+      }
+    });
+  </script>
