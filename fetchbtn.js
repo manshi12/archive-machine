@@ -29,21 +29,17 @@ function toggleCodriaFields() {
 }
 
 
-<!-- Replace your existing button code with this structure -->
+
 <tr bgcolor="#FFFFFF">
   <td colspan="5">&nbsp;</td>
 </tr>
 <tr bgcolor="#FFFFFF">
   <td colspan="5">
     <div class="button-container">
-      <!-- This button will show when Sub-group is selected -->
       <input type="button" name="fetchCFDetails" id="fetchCFDetails" value="Fetch Details" 
         class="actionButton" onclick="javascript:fetchDetails();">
-      
-      <!-- This button will show when LE is selected -->
       <input type="button" name="fetchCFDetailsle" id="fetchCFDetailsle" value="Fetch Details" 
         class="actionButton" onclick="javascript:fetchDetailsle();" style="display: none;">
-      
       <button class="actionButton cancelbutton" onclick="history.back();">Cancel</button>
     </div>
   </td>
