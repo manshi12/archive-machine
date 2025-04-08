@@ -1,12 +1,11 @@
 // Create radio button HTML string
 var radioHtml = '<input type="radio" name="codria" ' +
-'id="codria' + response[0].CODRIA + '" ' +
-'value="' + response[0].CODRIA + '" ' +
-'checked="checked" ' +
-  // added new line 
-'onchange="fetchUserDropdownDetails(\'codria\', \'sgr\')">' + 
-response[0].CODRIA;
-
+                                
+                                'id="codria' + response[0].CODRIA + '" ' +
+                                'value="' + response[0].CODRIA + '" ' +
+                                'onchange="fetchUserDropdownDetails(\'codria\', \'sgr\')" ' +
+                                'checked="checked">' + 
+                                response[0].CODRIA;
 // Set innerHTML directly for IE5
 codriaSpan.innerHTML = radioHtml;
 
